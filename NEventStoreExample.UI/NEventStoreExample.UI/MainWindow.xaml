@@ -1,0 +1,35 @@
+﻿<Window x:Class="NEventStoreExample.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NEventStoreExample.UI"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <TabControl>
+            <TabItem Header="Active Accounts">
+                <StackPanel>
+                    <DataGrid ItemsSource="{Binding ActiveAccounts}" CanUserAddRows="false" SelectedItem="{Binding CurrentAccount, Mode=TwoWay}" />
+                    <TextBox Text="{Binding CurrentAccount.Name}" />
+                    <TextBox Text="{Binding CurrentAccount.ID}" />
+                    <TextBox Text="{Binding CurrentAccount.Address}" />
+                    <TextBox Text="{Binding CurrentAccount.City}" />
+                    <Button Height="25" Command="{Binding UpdateAccountDetails}" Content="Update"/>
+                    <TextBox Text="{Binding Amount}" />
+                    <Button Height="25" Command="{Binding DepositAmount}" Content="Deposit"/>
+                    <Button Height="25" Command="{Binding WithdrawAmount}" Content="Withdraw"/>
+                    <Button Height="25" Command="{Binding CloseAccount}" Content="Close"/>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Actions">
+                <StackPanel>
+                    <TextBlock Text="Name" />
+                    <TextBox Text="{Binding AccountHolderName}" />
+                    <Button Command="{Binding CreateAccount}" Height="25" Content="Create Account" />
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>

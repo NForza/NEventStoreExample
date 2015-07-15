@@ -1,0 +1,1 @@
+﻿update Commits set Dispatched = 0
