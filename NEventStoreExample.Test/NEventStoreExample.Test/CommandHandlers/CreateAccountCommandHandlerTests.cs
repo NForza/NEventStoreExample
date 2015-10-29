@@ -34,7 +34,8 @@ namespace NEventStoreExample.Test.CommandHandlers
             var handler = new CreateAccountCommandHandler(eventStore);
 
             // Act
-            Action action = () => handler.Handle(new CreateAccountCommand(Guid.NewGuid(), ""));
+            Action action = () => handler.Handle(
+                new CreateAccountCommand(Guid.NewGuid(), ""));
 
             // Assert
             action.ShouldThrow<ArgumentException>();
@@ -48,7 +49,8 @@ namespace NEventStoreExample.Test.CommandHandlers
             var handler = new CreateAccountCommandHandler(eventStore);
 
             // Act
-            Action action = () => handler.Handle(new CreateAccountCommand(Guid.NewGuid(), null));
+            Action action = () => handler.Handle(
+                new CreateAccountCommand(Guid.NewGuid(), null));
 
             // Assert
             action.ShouldThrow<ArgumentException>();
@@ -62,7 +64,8 @@ namespace NEventStoreExample.Test.CommandHandlers
             var handler = new CreateAccountCommandHandler(eventStore);
             
             // Act
-            Action action = () => handler.Handle(new CreateAccountCommand(Guid.Empty, "Thomas"));
+            Action action = () => handler.Handle(
+                new CreateAccountCommand(Guid.Empty, "Thomas"));
 
             // Assert
             action.ShouldThrow<ArgumentException>();

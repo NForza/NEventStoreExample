@@ -18,7 +18,9 @@ namespace NEventStoreExample.Test.CommandHandlers
             // Arrange
             var account = new Account(Guid.NewGuid(), "Thomas");  
             account.Deposit(100);
-            var eventStore = new InMemoryEventRepositoryBuilder().WithAggregates(account).Build();
+            var eventStore = new InMemoryEventRepositoryBuilder()
+                .WithAggregates(account)
+                .Build();
             var handler = new WithdrawMoneyCommandHandler(eventStore);
             
             // Act
@@ -39,11 +41,14 @@ namespace NEventStoreExample.Test.CommandHandlers
             var account = new Account(Guid.NewGuid(), "Thomas");
             account.Close();
 
-            var eventStore = new InMemoryEventRepositoryBuilder().WithAggregates(account).Build();
+            var eventStore = new InMemoryEventRepositoryBuilder()
+                .WithAggregates(account)
+                .Build();
             var handler = new WithdrawMoneyCommandHandler(eventStore);
 
             // Act
-            Action action = () => handler.Handle(new WithdrawMoneyCommand(account.Id, 200));
+            Action action = () => handler.Handle(
+                new WithdrawMoneyCommand(account.Id, 200));
 
             // Assert
             action.ShouldThrow<InvalidOperationException>();

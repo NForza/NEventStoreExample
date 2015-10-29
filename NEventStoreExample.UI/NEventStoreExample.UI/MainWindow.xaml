@@ -11,15 +11,25 @@
             <TabItem Header="Active Accounts">
                 <StackPanel>
                     <DataGrid ItemsSource="{Binding ActiveAccounts}" CanUserAddRows="false" SelectedItem="{Binding CurrentAccount, Mode=TwoWay}" />
-                    <TextBox Text="{Binding CurrentAccount.Name}" />
-                    <TextBox Text="{Binding CurrentAccount.ID}" />
-                    <TextBox Text="{Binding CurrentAccount.Address}" />
-                    <TextBox Text="{Binding CurrentAccount.City}" />
+                    <TextBlock Text="Selected Account:" Margin="0, 20, 0, 0"/>
+                    <Border BorderBrush="Beige" BorderThickness="2" Margin="10">
+                        <StackPanel>
+                            <TextBox Text="{Binding CurrentAccount.Name}" />
+                            <TextBox Text="{Binding CurrentAccount.ID}" />
+                            <TextBox Text="{Binding CurrentAccount.Address}" />
+                            <TextBox Text="{Binding CurrentAccount.City}" />
+                        </StackPanel>
+                    </Border>
                     <Button Height="25" Command="{Binding UpdateAccountDetails}" Content="Update"/>
-                    <TextBox Text="{Binding Amount}" />
-                    <Button Height="25" Command="{Binding DepositAmount}" Content="Deposit"/>
-                    <Button Height="25" Command="{Binding WithdrawAmount}" Content="Withdraw"/>
-                    <Button Height="25" Command="{Binding CloseAccount}" Content="Close"/>
+                    <Border Margin="0, 20, 0, 0">
+                        <StackPanel Margin="10,0,-0.2,0">
+                           <TextBlock Text="Amount" />
+                            <TextBox Text="{Binding Amount}" />
+                            <Button Height="25" Command="{Binding DepositAmount}" Content="Deposit"/>
+                            <Button Height="25" Command="{Binding WithdrawAmount}" Content="Withdraw"/>
+                        </StackPanel>
+
+                    </Border>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Actions">
@@ -27,6 +37,7 @@
                     <TextBlock Text="Name" />
                     <TextBox Text="{Binding AccountHolderName}" />
                     <Button Command="{Binding CreateAccount}" Height="25" Content="Create Account" />
+                    <Button Command="{Binding CloseAccount}" Height="25" Content="Close"/>
                 </StackPanel>
             </TabItem>
         </TabControl>

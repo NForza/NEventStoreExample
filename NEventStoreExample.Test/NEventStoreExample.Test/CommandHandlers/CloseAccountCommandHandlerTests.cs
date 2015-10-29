@@ -18,7 +18,9 @@ namespace NEventStoreExample.Test.CommandHandlers
             // Arrange
             var account = new Account(Guid.NewGuid(), "Thomas");
 
-            var eventStore = new InMemoryEventRepositoryBuilder().WithAggregates(account).Build();
+            var eventStore = new InMemoryEventRepositoryBuilder()
+                .WithAggregates(account)
+                .Build();
             var handler = new CloseAccountCommandHandler(eventStore);
 
             // Act
@@ -39,7 +41,9 @@ namespace NEventStoreExample.Test.CommandHandlers
             var account = new Account(Guid.NewGuid(), "Thomas");
             account.Close();
 
-            var eventStore = new InMemoryEventRepositoryBuilder().WithAggregates(account).Build();
+            var eventStore = new InMemoryEventRepositoryBuilder()
+                .WithAggregates(account)
+                .Build();
             var handler = new CloseAccountCommandHandler(eventStore);
 
             // Act
