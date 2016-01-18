@@ -4,7 +4,7 @@ using NEventStoreExample.Infrastructure;
 
 namespace NEventStoreExample.EventHandler
 {
-    public class DebugAccountProjector : 
+    public class DebugAccountProjection : 
         IEventHandler<AccountCreatedEvent>,
         IEventHandler<AccountClosedEvent>,
         IEventHandler<MoneyDepositedEvent>,

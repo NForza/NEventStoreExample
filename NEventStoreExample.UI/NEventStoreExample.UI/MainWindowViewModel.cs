@@ -29,7 +29,7 @@ namespace NEventStoreExample.UI
             CreateAccount = new RelayCommand(PublishCreateAccountCommand);
             UpdateAccountDetails = new RelayCommand(PublishUpdateAccountDetailsCommand);
             WithdrawAmount = new RelayCommand(PublishWithdrawMoneyCommand);
-            DepositAmount = new RelayCommand(PublishDepositMoneyCommand );
+            DepositAmount = new RelayCommand(PublishDepositMoneyCommand);
             CloseAccount = new RelayCommand(PublishCloseAccountCommand);
         }
 
@@ -49,7 +49,7 @@ namespace NEventStoreExample.UI
                     var account = new AccountDisplay();
                     account.ID = reader.GetGuid(0);
                     account.Name = reader[1] as string;
-                    account.Amount = reader.GetDouble(2);
+                    account.Amount = reader[2] as string;
                     account.Address = reader[3] as string;
                     account.City = reader[4] as string;
                     accounts.Add(account);
@@ -60,8 +60,7 @@ namespace NEventStoreExample.UI
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private void PublishCreateAccountCommand()

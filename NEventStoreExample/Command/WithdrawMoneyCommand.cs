@@ -7,11 +7,11 @@ namespace NEventStoreExample.Command
     {
         public WithdrawMoneyCommand(Guid accountId, double amount)
         {
-            AccountId = accountId;
+            ID = accountId;
             Amount = amount;
         }
 
-        public Guid AccountId { get; private set; }
+        public Guid ID { get; set; }
 
         public double Amount { get; private set; }
     }

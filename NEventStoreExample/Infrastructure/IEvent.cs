@@ -1,4 +1,6 @@
-﻿namespace NEventStoreExample.Infrastructure
+﻿using System;
+
+namespace NEventStoreExample.Infrastructure
 {
     public interface IEvent
     {

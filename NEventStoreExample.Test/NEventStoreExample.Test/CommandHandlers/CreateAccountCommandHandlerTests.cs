@@ -15,23 +15,21 @@ namespace NEventStoreExample.Test.CommandHandlers
         public void When_create_account_command_is_triggered_it_should_raise_the_appropriate_events()
         {
             // Arrange
-            var eventStore = new InMemoryEventRepositoryBuilder().Build();
-            var handler = new CreateAccountCommandHandler(eventStore);
+            var handler = new CreateAccountCommandHandler();
             
             // Act
-            handler.Handle(new CreateAccountCommand(Guid.NewGuid(), "Thomas"));
+            var events = handler.Handle(new CreateAccountCommand(Guid.NewGuid(), "Thomas"));
 
             // Assert
-            eventStore.Events.Should().HaveCount(1);
-            eventStore.Events.OfType<AccountCreatedEvent>().Should().HaveCount(1);
+            events.Should().HaveCount(1);
+            events.OfType<AccountCreatedEvent>().Should().HaveCount(1);
         }
 
         [TestMethod]
         public void When_create_account_command_is_triggered_with_an_empty_name_it_should_throw()
         {
             // Arrange
-            var eventStore = new InMemoryEventRepositoryBuilder().Build();
-            var handler = new CreateAccountCommandHandler(eventStore);
+            var handler = new CreateAccountCommandHandler();
 
             // Act
             Action action = () => handler.Handle(
@@ -45,8 +43,7 @@ namespace NEventStoreExample.Test.CommandHandlers
         public void When_create_account_command_is_triggered_without_a_name_it_should_throw()
         {
             // Arrange
-            var eventStore = new InMemoryEventRepositoryBuilder().Build();
-            var handler = new CreateAccountCommandHandler(eventStore);
+            var handler = new CreateAccountCommandHandler();
 
             // Act
             Action action = () => handler.Handle(
@@ -60,8 +57,7 @@ namespace NEventStoreExample.Test.CommandHandlers
         public void When_create_account_command_is_triggered_without_a_id_it_should_throw()
         {
             // Arrange
-            var eventStore = new InMemoryEventRepositoryBuilder().Build();
-            var handler = new CreateAccountCommandHandler(eventStore);
+            var handler = new CreateAccountCommandHandler();
             
             // Act
             Action action = () => handler.Handle(

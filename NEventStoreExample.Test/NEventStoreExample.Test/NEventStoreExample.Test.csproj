@@ -76,9 +76,7 @@
     <Compile Include="CommandHandlers\WithdrawMoneyCommandHandlerTests.cs" />
     <Compile Include="CommandHandlers\DepositMoneyCommandHandlerTests.cs" />
     <Compile Include="CommandHandlers\CloseAccountCommandHandlerTests.cs" />
-    <Compile Include="InMemoryEventRepository.cs" />
     <Compile Include="CommandHandlers\CreateAccountCommandHandlerTests.cs" />
-    <Compile Include="InMemoryEventRepositoryBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestDataBuilder.cs" />
   </ItemGroup>

@@ -1,6 +1,10 @@
 ﻿using System;
 using CommonDomain.Core;
 using NEventStoreExample.Event;
+using NEventStoreExample.Infrastructure;
+using System.Collections.Generic;
+using MemBus.Support;
+using System.Linq;
 
 namespace NEventStoreExample.Model
 {
@@ -25,10 +29,10 @@ namespace NEventStoreExample.Model
         public string Address { get; set; }
         public string City { get; set; }
 
-        public void Deposit(double amount)
+        public IEnumerable<IEvent> Deposit(double amount)
         {
             VerifyActiveAccount();
-            RaiseEvent(new MoneyDepositedEvent(Id, amount));
+            return new MoneyDepositedEvent(Id, amount).AsEnumerable();
         }
 
         private void VerifyActiveAccount()
@@ -37,29 +41,31 @@ namespace NEventStoreExample.Model
                 throw new InvalidOperationException("Account is inactive");
         }
 
-        public void Withdraw(double amount)
+        public IEnumerable<IEvent> Withdraw(double amount)
         {
             VerifyActiveAccount();
-            RaiseEvent(new MoneyWithdrawnEvent(Id, amount));
+            return new MoneyWithdrawnEvent(Id, amount).AsEnumerable();
         }
 
-        public void Close()
+        public IEnumerable<IEvent> Close()
         {
             if(IsActive)
-                RaiseEvent(new AccountClosedEvent(Id, Name));
+                return new AccountClosedEvent(Id, Name).AsEnumerable();
+            return Enumerable.Empty<IEvent>();
         }
 
-        public void SetDetails(string name, string address, string city)
+        public IEnumerable<IEvent> SetDetails(string name, string address, string city)
         {
             if (Name != name || Address != address || City != city)
-                RaiseEvent(new AccountDetailsSetEvent(Id, name, address, city));
+                return new AccountDetailsSetEvent(Id, name, address, city).AsEnumerable();
+            return Enumerable.Empty<IEvent>();
         }
 
-        internal void MoveToNewAddress(string address, string city)
+        internal IEnumerable<IEvent> MoveToNewAddress(string address, string city)
         {
             if (Address != address || City != city)
-                RaiseEvent(new AccountHolderMovedEvent(Id, address, city));
-            else    
+                return new AccountHolderMovedEvent(Id, address, city).AsEnumerable();
+            else
                 throw new InvalidOperationException("New address must differ from current address");
         }
         

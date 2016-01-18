@@ -3,7 +3,7 @@
 namespace NEventStoreExample.EventHandler
 {
     using Infrastructure;
-    public class AccountDenormalizer : DenormalizerBase,
+    public class AccountProjection : ProjectionBase,
         IEventHandler<AccountCreatedEvent>,
         IEventHandler<AccountClosedEvent>,
         IEventHandler<MoneyDepositedEvent>,

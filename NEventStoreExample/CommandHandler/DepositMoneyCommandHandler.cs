@@ -1,25 +1,15 @@
-﻿using System;
-using CommonDomain.Persistence;
-using NEventStoreExample.Command;
+﻿using NEventStoreExample.Command;
 using NEventStoreExample.Infrastructure;
 using NEventStoreExample.Model;
+using System.Collections.Generic;
 
 namespace NEventStoreExample.CommandHandler
 {
-    public class DepositMoneyCommandHandler : ICommandHandler<DepositMoneyCommand>
+    public class DepositMoneyCommandHandler : ICommandHandler<DepositMoneyCommand, Account>
     {
-        private readonly IRepository eventstore;
-
-        public DepositMoneyCommandHandler(IRepository eventstore)
+        public IEnumerable<IEvent> Handle(DepositMoneyCommand command, Account account)
         {
-            this.eventstore = eventstore;
-        }
-
-        public void Handle(DepositMoneyCommand command)
-        {
-            var account = eventstore.GetById<Account>(command.AccountId);
-            account.Deposit(command.Amount);
-            eventstore.Save(account, Guid.NewGuid());
+            return account.Deposit(command.Amount);
         }
     }
 }

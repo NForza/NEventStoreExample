@@ -6,6 +6,7 @@ using NEventStoreExample.Command;
 using NEventStoreExample.CommandHandler;
 using NEventStoreExample.Event;
 using NEventStoreExample.Model;
+using NEventStoreExample.Infrastructure;
 
 namespace NEventStoreExample.Test.CommandHandlers
 {
@@ -17,19 +18,16 @@ namespace NEventStoreExample.Test.CommandHandlers
         {
             // Arrange
             var account = new Account(Guid.NewGuid(), "Thomas");
-            var eventStore = new InMemoryEventRepositoryBuilder()
-                .WithAggregates(account)
-                .Build();
-            var handler = new DepositMoneyCommandHandler(eventStore);
+            var handler = new DepositMoneyCommandHandler();
 
             // Act
-            handler.Handle(new DepositMoneyCommand(account.Id, 200));
+            var events = handler.Handle(new DepositMoneyCommand(account.Id, 200), account);
 
             // Assert
-            eventStore.Events.Should().HaveCount(1);
-            eventStore.Events.OfType<MoneyDepositedEvent>().Should().HaveCount(1);
+            events.Should().HaveCount(1);
+            events.OfType<MoneyDepositedEvent>().Should().HaveCount(1);
 
-            account = eventStore.GetById<Account>(account.Id);
+            account.ApplyEvents(events);
             account.Amount.Should().Be(200);
         }
 
@@ -38,16 +36,13 @@ namespace NEventStoreExample.Test.CommandHandlers
         {
             // Arrange
             var account = new Account(Guid.NewGuid(), "Thomas");
-            account.Close();
+            account.ApplyEvents(account.Close());
 
-            var repository = new InMemoryEventRepositoryBuilder()
-                .WithAggregates(account)
-                .Build();
-            var handler = new DepositMoneyCommandHandler(repository);
+            var handler = new DepositMoneyCommandHandler();
 
             // Act
             Action action = () => handler.Handle(
-                new DepositMoneyCommand(account.Id, 200));
+                new DepositMoneyCommand(account.Id, 200), account);
 
             // Assert
             action.ShouldThrow<InvalidOperationException>();

@@ -1,12 +1,11 @@
 ﻿using System;
 using NEventStoreExample.Event;
 using NEventStoreExample.Model;
+using NEventStoreExample.Infrastructure;
 
 namespace NEventStoreExample.EventHandler
 {
-    using System.Data.SqlClient;
-    using Infrastructure;
-    public class AccountModificationsDenormalizer : DenormalizerBase,
+    public class AccountModificationsProjection : ProjectionBase,
         IEventHandler<MoneyDepositedEvent>,
         IEventHandler<MoneyWithdrawnEvent>
     {

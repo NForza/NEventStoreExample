@@ -7,11 +7,11 @@ namespace NEventStoreExample.Command
     {
         public CreateAccountCommand(Guid accountId, string name)
         {
-            Id = accountId;
+            ID = accountId;
             Name = name;
         }
 
-        public Guid Id { get; private set; }
+        public Guid ID { get; set; }
 
         public string Name { get; private set; }
     }

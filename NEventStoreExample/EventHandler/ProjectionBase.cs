@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 
 namespace NEventStoreExample.EventHandler
 {
-    public class DenormalizerBase
+    public class ProjectionBase
     {
         protected void ExecuteSqlCommand(string sqlcommand, Action<SqlCommand> setParamsAction = null)
         {
@@ -16,8 +16,7 @@ namespace NEventStoreExample.EventHandler
 
                 using (var command = new SqlCommand(sqlcommand, connection))
                 {
-                    if (setParamsAction != null)
-                        setParamsAction(command);
+                    setParamsAction?.Invoke(command);
                     connection.Open();
                     command.ExecuteScalar();
                 }

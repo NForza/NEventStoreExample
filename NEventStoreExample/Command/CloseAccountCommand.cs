@@ -7,9 +7,9 @@ namespace NEventStoreExample.Command
     {
         public CloseAccountCommand(Guid accountId)
         {
-            AccountId = accountId;
+            ID = accountId;
         }
 
-        public Guid AccountId { get; private set; }
+        public Guid ID { get; set; }
     }
 }

@@ -7,13 +7,13 @@ namespace NEventStoreExample.Command
     {
         public SetAccountDetailsCommand(Guid accountid, string name, string address, string city)
         {
-            AccountId = accountid;
+            ID = accountid;
             Name = name;
             Address = address;
             City = city;
         }
         
-        public Guid AccountId { get; private set; }
+        public Guid ID { get; set; }
         
         public string Name { get; private set; }
         

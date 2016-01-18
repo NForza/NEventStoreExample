@@ -1,25 +1,15 @@
-﻿using System;
-using CommonDomain.Persistence;
-using NEventStoreExample.Command;
+﻿using NEventStoreExample.Command;
 using NEventStoreExample.Infrastructure;
 using NEventStoreExample.Model;
+using System.Collections.Generic;
 
 namespace NEventStoreExample.CommandHandler
 {
-    public class CloseAccountCommandHandler : ICommandHandler<CloseAccountCommand>
+    public class CloseAccountCommandHandler : ICommandHandler<CloseAccountCommand, Account>
     {
-        private readonly IRepository eventstore;
-
-        public CloseAccountCommandHandler(IRepository eventstore)
+        public IEnumerable<IEvent> Handle(CloseAccountCommand command, Account account)
         {
-            this.eventstore = eventstore;
-        }
-
-        public void Handle(CloseAccountCommand command)
-        {
-            var account = eventstore.GetById<Account>(command.AccountId);
-            account.Close();
-            eventstore.Save(account, Guid.NewGuid());
+            return account.Close();
         }
     }
 }

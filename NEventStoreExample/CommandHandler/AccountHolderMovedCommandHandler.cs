@@ -3,23 +3,15 @@ using CommonDomain.Persistence;
 using NEventStoreExample.Infrastructure;
 using NEventStoreExample.Command;
 using NEventStoreExample.Model;
+using System.Collections.Generic;
 
 namespace NEventStoreExample.CommandHandler
 {
-    public class AccountHolderMovedCommandHandler : ICommandHandler<AccountHolderMovedCommand>
+    public class AccountHolderMovedCommandHandler : ICommandHandler<AccountHolderMovedCommand, Account>
     {
-        private IRepository eventstore;
-
-        public AccountHolderMovedCommandHandler(IRepository eventstore)
-        {            
-            this.eventstore = eventstore;
-        }
-
-        public void Handle(AccountHolderMovedCommand command)
+        public IEnumerable<IEvent> Handle(AccountHolderMovedCommand command, Account account)
         {
-            var account = eventstore.GetById<Account>(command.AccountId);
-            account.MoveToNewAddress(command.Address, command.City);
-            eventstore.Save(account, Guid.NewGuid());
+            return account.MoveToNewAddress(command.Address, command.City);
         }
     }
 }

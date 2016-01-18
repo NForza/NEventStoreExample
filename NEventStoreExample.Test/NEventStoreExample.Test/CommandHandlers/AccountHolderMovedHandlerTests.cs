@@ -6,6 +6,7 @@ using NEventStoreExample.Command;
 using NEventStoreExample.CommandHandler;
 using NEventStoreExample.Event;
 using NEventStoreExample.Model;
+using NEventStoreExample.Infrastructure;
 
 namespace NEventStoreExample.Test.CommandHandlers
 {
@@ -17,21 +18,17 @@ namespace NEventStoreExample.Test.CommandHandlers
         {
             // Arrange
             var account = new Account(Guid.NewGuid(), "Thomas");
-
-            var eventStore = new InMemoryEventRepositoryBuilder()
-                .WithAggregates(account)
-                .Build();
-            var handler = new AccountHolderMovedCommandHandler(eventStore);
+            
+            var handler = new AccountHolderMovedCommandHandler();
 
             // Act
-            handler.Handle(
-                new AccountHolderMovedCommand(account.Id, "New Address", "New City"));
+            var events = handler.Handle(
+                new AccountHolderMovedCommand(account.Id, "New Address", "New City"), account);
+            events.Should().HaveCount(1);
+            events.OfType<AccountHolderMovedEvent>().Should().HaveCount(1);
 
-            // Assert
-            eventStore.Events.Should().HaveCount(1);
-            eventStore.Events.OfType<AccountHolderMovedEvent>().Should().HaveCount(1);
+            account.ApplyEvents(events);
 
-            account = eventStore.GetById<Account>(account.Id);
             account.Address.Should().Be("New Address");
             account.City.Should().Be("New City");
         }
@@ -41,15 +38,12 @@ namespace NEventStoreExample.Test.CommandHandlers
         {
             // Arrange
             var account = new Account(Guid.NewGuid(), "Thomas");
-            account.SetDetails("Thomas", "New Address", "New Town");
+            account.ApplyEvents( account.SetDetails("Thomas", "New Address", "New Town"));
 
-            var eventStore = new InMemoryEventRepositoryBuilder()
-                .WithAggregates(account)
-                .Build();
-            var handler = new AccountHolderMovedCommandHandler(eventStore);
+            var handler = new AccountHolderMovedCommandHandler();
 
             // Act
-            Action action = () => handler.Handle(new AccountHolderMovedCommand(account.Id, "New Address", "New Town"));
+            Action action = () => handler.Handle(new AccountHolderMovedCommand(account.Id, "New Address", "New Town"), account);
 
             // Assert
             action.ShouldThrow<InvalidOperationException>();

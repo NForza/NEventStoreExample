@@ -6,6 +6,7 @@ using NEventStoreExample.Command;
 using NEventStoreExample.CommandHandler;
 using NEventStoreExample.Event;
 using NEventStoreExample.Model;
+using NEventStoreExample.Infrastructure;
 
 namespace NEventStoreExample.Test.CommandHandlers
 {
@@ -18,19 +19,17 @@ namespace NEventStoreExample.Test.CommandHandlers
             // Arrange
             var account = new Account(Guid.NewGuid(), "Thomas");
 
-            var eventStore = new InMemoryEventRepositoryBuilder()
-                .WithAggregates(account)
-                .Build();
-            var handler = new CloseAccountCommandHandler(eventStore);
+            var handler = new CloseAccountCommandHandler();
 
             // Act
-            handler.Handle(new CloseAccountCommand(account.Id));
+            var events = handler.Handle(new CloseAccountCommand(account.Id), account);
 
             // Assert
-            eventStore.Events.Should().HaveCount(1);
-            eventStore.Events.OfType<AccountClosedEvent>().Should().HaveCount(1);
+            events.Should().HaveCount(1);
+            events.OfType<AccountClosedEvent>().Should().HaveCount(1);
 
-            account = eventStore.GetById<Account>(account.Id);
+            account.ApplyEvents(events);
+
             account.IsActive.Should().BeFalse();
         }
 
@@ -39,18 +38,15 @@ namespace NEventStoreExample.Test.CommandHandlers
         {
             // Arrange
             var account = new Account(Guid.NewGuid(), "Thomas");
-            account.Close();
+            account.ApplyEvents(account.Close());
 
-            var eventStore = new InMemoryEventRepositoryBuilder()
-                .WithAggregates(account)
-                .Build();
-            var handler = new CloseAccountCommandHandler(eventStore);
+            var handler = new CloseAccountCommandHandler();
 
             // Act
-            handler.Handle(new CloseAccountCommand(account.Id));
+            var events = handler.Handle(new CloseAccountCommand(account.Id), account);
 
             // Assert
-            eventStore.Events.OfType<AccountClosedEvent>().Should().BeEmpty();
+            events.Should().BeEmpty();
         }
     }
 }
