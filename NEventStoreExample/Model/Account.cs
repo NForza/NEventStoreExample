@@ -21,14 +21,14 @@ namespace NEventStoreExample.Model
 
         public bool IsActive { get; private set; }
 
-        public double Amount { get; private set; }
+        public double CurrentAmount { get; private set; }
         public string Address { get; set; }
         public string City { get; set; }
 
         public void Deposit(double amount)
         {
             VerifyActiveAccount();
-            RaiseEvent(new MoneyDepositedEvent(Id, amount));
+            RaiseEvent(new MoneyDepositedEvent(Id, amount, CurrentAmount + amount));
         }
 
         private void VerifyActiveAccount()
@@ -40,7 +40,7 @@ namespace NEventStoreExample.Model
         public void Withdraw(double amount)
         {
             VerifyActiveAccount();
-            RaiseEvent(new MoneyWithdrawnEvent(Id, amount));
+            RaiseEvent(new MoneyWithdrawnEvent(Id, amount, CurrentAmount - amount));
         }
 
         public void Close()
@@ -77,12 +77,12 @@ namespace NEventStoreExample.Model
 
         private void Apply(MoneyDepositedEvent e)
         {
-            Amount += e.Amount;
+            CurrentAmount += e.Amount;
         }
 
         private void Apply(MoneyWithdrawnEvent e)
         {
-            Amount -= e.Amount;
+            CurrentAmount -= e.Amount;
         }
 
         private void Apply(AccountDetailsSetEvent e)

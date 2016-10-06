@@ -10,6 +10,7 @@ using NEventStore.Dispatcher;
 using NEventStore.Persistence.Sql.SqlDialects;
 using NEventStoreExample.Command;
 using NEventStoreExample.Event;
+using NEventStoreExample.EventHandler;
 using NEventStoreExample.Infrastructure;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,7 +60,8 @@ namespace NEventStoreExample.UI
             builder.RegisterInstance<IRepository>(new EventStoreRepository(store, new AggregateFactory(), new ConflictDetector()));
             builder.RegisterType<MainWindow>().AsSelf();
             builder.RegisterType<MainWindowViewModel>().AsSelf();
-            builder.RegisterInstance<IBus>(bus);
+            builder.RegisterType<SqlDatabase>().As<ISqlDatabase>();
+            builder.RegisterInstance(bus);
 
             IContainer container = builder.Build();
             return container;

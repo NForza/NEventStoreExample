@@ -4,9 +4,9 @@ using System.Data.SqlClient;
 
 namespace NEventStoreExample.EventHandler
 {
-    public class DenormalizerBase
+    public class SqlDatabase : ISqlDatabase
     {
-        protected void ExecuteSqlCommand(string sqlcommand, Action<SqlCommand> setParamsAction = null)
+        public void ExecuteSqlCommand(string sqlcommand, Action<SqlCommand> setParamsAction = null)
         {
             using (
                 var connection =

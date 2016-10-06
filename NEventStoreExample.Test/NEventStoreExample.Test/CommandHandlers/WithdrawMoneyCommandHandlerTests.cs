@@ -31,7 +31,7 @@ namespace NEventStoreExample.Test.CommandHandlers
             eventStore.Events.OfType<MoneyWithdrawnEvent>().Should().HaveCount(1);
 
             account = eventStore.GetById<Account>(account.Id);
-            account.Amount.Should().Be(70);
+            account.CurrentAmount.Should().Be(70);
         }
 
         [TestMethod]

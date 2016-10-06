@@ -5,16 +5,21 @@ namespace NEventStoreExample.EventHandler
     using Infrastructure;
     using System;
 
-    public class AccountDenormalizer : DenormalizerBase,
+    public class AccountDenormalizer :
         IEventHandler<AccountCreatedEvent>,
         IEventHandler<AccountClosedEvent>,
         IEventHandler<MoneyDepositedEvent>,
         IEventHandler<MoneyWithdrawnEvent>,
         IEventHandler<AccountDetailsSetEvent>
     {
+        private ISqlDatabase _database;
+        public AccountDenormalizer(ISqlDatabase database)
+        {
+            _database = database;
+        }
         public void Handle(AccountCreatedEvent e)
         {
-            ExecuteSqlCommand("INSERT INTO ActiveAccounts (id, name) VALUES (@id, @name)",
+            _database.ExecuteSqlCommand("INSERT INTO ActiveAccounts (id, name) VALUES (@id, @name)",
                 command =>
                 {
                     command.Parameters.AddWithValue("@id", e.AccountId);
@@ -24,7 +29,7 @@ namespace NEventStoreExample.EventHandler
 
         public void Handle(AccountClosedEvent e)
         {
-            ExecuteSqlCommand("Delete from ActiveAccounts WHERE Id = @id",
+            _database.ExecuteSqlCommand("Delete from ActiveAccounts WHERE Id = @id",
                 command =>
                 {
                     command.Parameters.AddWithValue("@id", e.AccountId);
@@ -33,27 +38,27 @@ namespace NEventStoreExample.EventHandler
 
         public void Handle(MoneyDepositedEvent e)
         {
-            ExecuteSqlCommand( "Update ActiveAccounts SET Amount = Amount + @amount WHERE Id = @id", 
+            _database.ExecuteSqlCommand( "Update ActiveAccounts SET Amount = @amount WHERE Id = @id", 
                 command =>
                 {
                     command.Parameters.AddWithValue("@id", e.AccountId);
-                    command.Parameters.AddWithValue("@amount", e.Amount);
+                    command.Parameters.AddWithValue("@amount", e.NewAccountAmount);
                 } );
         }
 
         public void Handle(MoneyWithdrawnEvent e)
         {
-            ExecuteSqlCommand("Update ActiveAccounts SET Amount = Amount - @amount WHERE Id = @id",
+            _database.ExecuteSqlCommand("Update ActiveAccounts SET Amount = @amount WHERE Id = @id",
                 command =>
                 {
                     command.Parameters.AddWithValue("@id", e.AccountId);
-                    command.Parameters.AddWithValue("@amount", e.Amount);
+                    command.Parameters.AddWithValue("@amount", e.NewAccountAmount);
                 });
         }
 
         public void Handle(AccountDetailsSetEvent e)
         {
-            ExecuteSqlCommand("Update ActiveAccounts SET Address = @address, city = @city WHERE Id = @id",
+            _database.ExecuteSqlCommand("Update ActiveAccounts SET Address = @address, city = @city WHERE Id = @id",
                 command =>
                 {
                     command.Parameters.AddWithValue("@id", e.AccountId);

@@ -30,7 +30,7 @@ namespace NEventStoreExample.Test.CommandHandlers
             eventStore.Events.OfType<MoneyDepositedEvent>().Should().HaveCount(1);
 
             account = eventStore.GetById<Account>(account.Id);
-            account.Amount.Should().Be(200);
+            account.CurrentAmount.Should().Be(200);
         }
 
         [TestMethod]
@@ -53,5 +53,4 @@ namespace NEventStoreExample.Test.CommandHandlers
             action.ShouldThrow<InvalidOperationException>();
         }
     }
-
 }

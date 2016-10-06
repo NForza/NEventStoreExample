@@ -6,13 +6,18 @@ namespace NEventStoreExample.EventHandler
 {
     using System.Data.SqlClient;
     using Infrastructure;
-    public class AccountModificationsDenormalizer : DenormalizerBase,
+    public class AccountModificationsDenormalizer : 
         IEventHandler<MoneyDepositedEvent>,
         IEventHandler<MoneyWithdrawnEvent>
     {
+        private ISqlDatabase _database;
+        public AccountModificationsDenormalizer(ISqlDatabase database)
+        {
+            _database = database;
+        }
         public void Handle(MoneyDepositedEvent e)
         {
-            ExecuteSqlCommand(
+            _database.ExecuteSqlCommand(
                     "INSERT INTO Modifications (Id, AccountId, ModificationType, Amount, ModificationDateTime) VALUES (@Id, @AccountId, @ModificationType, @Amount, @ModificationDateTime)",
                 command =>
                 {
@@ -26,7 +31,7 @@ namespace NEventStoreExample.EventHandler
 
         public void Handle(MoneyWithdrawnEvent e)
         {
-            ExecuteSqlCommand(
+            _database.ExecuteSqlCommand(
                         "INSERT INTO Modifications (Id, AccountId, ModificationType, Amount, ModificationDateTime) VALUES (@Id, @AccountId, @ModificationType, @Amount, @ModificationDateTime)",
 
                 command =>
@@ -38,6 +43,5 @@ namespace NEventStoreExample.EventHandler
                     command.Parameters.AddWithValue("@ModificationDateTime", DateTime.Now);
                 });
         }
-
     }
 }

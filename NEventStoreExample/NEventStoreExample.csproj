@@ -75,7 +75,8 @@
     <Compile Include="Command\DepositMoneyCommand.cs" />
     <Compile Include="Command\SetAccountDetailsCommand.cs" />
     <Compile Include="EventHandler\AccountModificationsDenormalizer.cs" />
-    <Compile Include="EventHandler\DenormalizerBase.cs" />
+    <Compile Include="EventHandler\ISqlDatabase.cs" />
+    <Compile Include="EventHandler\SqlDatabase.cs" />
     <Compile Include="Event\AccountDetailsSetEvent.cs" />
     <Compile Include="Event\AccountHolderMovedEvent.cs" />
     <Compile Include="Event\MoneyWithdrawnEvent.cs" />
