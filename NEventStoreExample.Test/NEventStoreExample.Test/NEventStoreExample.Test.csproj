@@ -77,6 +77,7 @@
     <Compile Include="CommandHandlers\WithdrawMoneyCommandHandlerTests.cs" />
     <Compile Include="CommandHandlers\DepositMoneyCommandHandlerTests.cs" />
     <Compile Include="CommandHandlers\CloseAccountCommandHandlerTests.cs" />
+    <Compile Include="Denormalizers\AccountDenormalizerTests.cs" />
     <Compile Include="InMemoryEventRepository.cs" />
     <Compile Include="CommandHandlers\CreateAccountCommandHandlerTests.cs" />
     <Compile Include="InMemoryEventRepositoryBuilder.cs" />
