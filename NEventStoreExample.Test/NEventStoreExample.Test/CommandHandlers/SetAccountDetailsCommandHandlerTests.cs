@@ -13,7 +13,7 @@ namespace NEventStoreExample.Test.CommandHandlers
     public class SetAccountDetailsCommandHandlerTests
     {
         [TestMethod]
-        public void When_set_account_details_command_is_triggered_it_should_raise_the_appropriate_events()
+        public void When_setting_account_details_it_should_raise_the_appropriate_events()
         {
             // Arrange
             var account = new Account(Guid.NewGuid(), "Thomas");
@@ -37,7 +37,7 @@ namespace NEventStoreExample.Test.CommandHandlers
         }
 
         [TestMethod]
-        public void When_set_account_details_command_is_triggered_but_nothing_has_changed_it_should_not_raise_events()
+        public void When_setting_account_details_but_nothing_has_changed_it_should_not_raise_events()
         {
             // Arrange
             var account = new Account(Guid.NewGuid(), "Thomas");

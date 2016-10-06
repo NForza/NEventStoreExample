@@ -13,7 +13,7 @@ namespace NEventStoreExample.Test.CommandHandlers
     public class CloseAccountCommandHandlerTests
     {
         [TestMethod]
-        public void When_close_account_command_is_triggered_it_should_raise_the_appropriate_events()
+        public void When_closing_an_account_it_should_raise_the_appropriate_events()
         {
             // Arrange
             var account = new Account(Guid.NewGuid(), "Thomas");
@@ -35,7 +35,7 @@ namespace NEventStoreExample.Test.CommandHandlers
         }
 
         [TestMethod]
-        public void When_close_account_command_is_triggered_on_a_closed_account_it_should_not_raise_events()
+        public void When_closing_an_account_that_is_already_closed_it_should_not_raise_events()
         {
             // Arrange
             var account = new Account(Guid.NewGuid(), "Thomas");

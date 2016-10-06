@@ -13,7 +13,7 @@ namespace NEventStoreExample.Test.CommandHandlers
     public class AccountHolderMovedHandlerTests
     {
         [TestMethod]
-        public void When_account_holder_moved_command_is_triggered_it_should_raise_the_appropriate_events()
+        public void When_account_holder_moved_it_should_raise_the_appropriate_events()
         {
             // Arrange
             var account = new Account(Guid.NewGuid(), "Thomas");
@@ -37,7 +37,7 @@ namespace NEventStoreExample.Test.CommandHandlers
         }
 
         [TestMethod]
-        public void When_account_holder_moved_command_is_triggered_but_nothing_has_changed_it_should_throw()
+        public void When_account_holder_moved_but_nothing_has_changed_it_should_throw()
         {
             // Arrange
             var account = new Account(Guid.NewGuid(), "Thomas");

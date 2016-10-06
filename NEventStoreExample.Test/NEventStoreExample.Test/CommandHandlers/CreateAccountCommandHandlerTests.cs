@@ -12,7 +12,7 @@ namespace NEventStoreExample.Test.CommandHandlers
     public class CreateAccountCommandHandlerTests
     {
         [TestMethod]
-        public void When_create_account_command_is_triggered_it_should_raise_the_appropriate_events()
+        public void When_account_is_created_it_should_raise_the_appropriate_events()
         {
             // Arrange
             var eventStore = new InMemoryEventRepositoryBuilder().Build();
@@ -27,7 +27,7 @@ namespace NEventStoreExample.Test.CommandHandlers
         }
 
         [TestMethod]
-        public void When_create_account_command_is_triggered_with_an_empty_name_it_should_throw()
+        public void When_account_is_created_with_an_empty_name_it_should_throw()
         {
             // Arrange
             var eventStore = new InMemoryEventRepositoryBuilder().Build();
@@ -42,7 +42,7 @@ namespace NEventStoreExample.Test.CommandHandlers
         }
 
         [TestMethod]
-        public void When_create_account_command_is_triggered_without_a_name_it_should_throw()
+        public void When_account_is_created_without_a_name_it_should_throw()
         {
             // Arrange
             var eventStore = new InMemoryEventRepositoryBuilder().Build();
@@ -57,7 +57,7 @@ namespace NEventStoreExample.Test.CommandHandlers
         }
         
         [TestMethod]
-        public void When_create_account_command_is_triggered_without_a_id_it_should_throw()
+        public void When_account_is_created_without_an_id_it_should_throw()
         {
             // Arrange
             var eventStore = new InMemoryEventRepositoryBuilder().Build();
