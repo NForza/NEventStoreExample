@@ -3,6 +3,8 @@
 namespace NEventStoreExample.EventHandler
 {
     using Infrastructure;
+    using System;
+
     public class AccountDenormalizer : DenormalizerBase,
         IEventHandler<AccountCreatedEvent>,
         IEventHandler<AccountClosedEvent>,
@@ -55,8 +57,8 @@ namespace NEventStoreExample.EventHandler
                 command =>
                 {
                     command.Parameters.AddWithValue("@id", e.AccountId);
-                    command.Parameters.AddWithValue("@address", e.Address);
-                    command.Parameters.AddWithValue("@city", e.City);
+                    command.Parameters.AddWithValue("@address", (object)e.Address ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@city", (object)e.City??DBNull.Value);
                 });
         }
     }

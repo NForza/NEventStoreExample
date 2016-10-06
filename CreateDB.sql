@@ -6,7 +6,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[ActiveAccounts](
 	[Name] [nvarchar](50) NOT NULL,
-	[Amount] [float] NOT NULL,
+	[Amount] [float] NOT NULL DEFAULT 0,
 	[Address] [nvarchar](max) NULL,
 	[City] [nvarchar](max) NULL,
 	[Id] [uniqueidentifier] NOT NULL,
